@@ -1,3 +1,3 @@
-nome:Lucca Niklaus\n
-matricula:202602271931\n
-Dominio:opção B\n
+- **Nome:** Lucca Niklaus
+- **Matrícula:** 202602271931
+- **Domínio:** Opção B
