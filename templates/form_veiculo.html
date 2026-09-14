@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<h2>{{ titulo }}</h2>
+
+<form method="POST" action="{{ acao }}" class="formulario">
+    {% if erros %}
+    <div class="erros">
+        <h3>⚠️ Erros encontrados:</h3>
+        <ul>
+            {% for campo, mensagem in erros.items() %}
+            <li>{{ mensagem }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="grupo-form">
+        <label for="placa">Placa: *</label>
+        <input type="text" id="placa" name="placa" value="{{ dados.get('placa', '') }}" 
+               placeholder="ABC-1234" required maxlength="8">
+        {% if erros.get('placa') %}<span class="erro">{{ erros['placa'] }}</span>{% endif %}
+    </div>
+
+    <div class="grupo-form">
+        <label for="marca">Marca: *</label>
+        <input type="text" id="marca" name="marca" value="{{ dados.get('marca', '') }}" required>
+        {% if erros.get('marca') %}<span class="erro">{{ erros['marca'] }}</span>{% endif %}
+    </div>
+
+    <div class="grupo-form">
+        <label for="modelo">Modelo: *</label>
+        <input type="text" id="modelo" name="modelo" value="{{ dados.get('modelo', '') }}" required>
+        {% if erros.get('modelo') %}<span class="erro">{{ erros['modelo'] }}</span>{% endif %}
+    </div>
+
+    <div class="grupo-form">
+        <label for="ano">Ano: *</label>
+        <input type="number" id="ano" name="ano" value="{{ dados.get('ano', '') }}" 
+               min="1950" max="2026" required>
+        {% if erros.get('ano') %}<span class="erro">{{ erros['ano'] }}</span>{% endif %}
+    </div>
+
+    <div class="grupo-form">
+        <label for="proprietario">Proprietário: *</label>
+        <input type="text" id="proprietario" name="proprietario" 
+               value="{{ dados.get('proprietario', '') }}" required>
+        {% if erros.get('proprietario') %}<span class="erro">{{ erros['proprietario'] }}</span>{% endif %}
+    </div>
+
+    <div class="botoes">
+        <button type="submit">💾 Salvar</button>
+        <a href="{{ url_for('listar') }}">Cancelar</a>
+    </div>
+</form>
+
+<p style="color: #666; font-size: 0.9em;">* Campos obrigatórios</p>
+{% endblock %}

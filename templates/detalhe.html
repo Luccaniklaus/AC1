@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}{{ veiculo.placa }}{% endblock %}
+
+{% block content %}
+<h2>{{ veiculo.placa }} — {{ veiculo.marca }} {{ veiculo.modelo }}</h2>
+
+<section class="detalhes">
+    <h3>Informações do Veículo</h3>
+    <ul>
+        <li><b>Placa:</b> {{ veiculo.placa }}</li>
+        <li><b>Marca:</b> {{ veiculo.marca }}</li>
+        <li><b>Modelo:</b> {{ veiculo.modelo }}</li>
+        <li><b>Ano:</b> {{ veiculo.ano }}</li>
+        <li><b>Proprietário:</b> {{ veiculo.proprietario }}</li>
+        <li><b>Cadastrado em:</b> {{ veiculo.data_cadastro }}</li>
+    </ul>
+
+    <p>
+        <a href="{{ url_for('editar', id_veiculo=veiculo.id) }}">✏️ Editar</a> |
+        <form method="POST" action="{{ url_for('excluir', id_veiculo=veiculo.id) }}" style="display:inline;">
+            <button type="submit" onclick="return confirm('Excluir este veículo e todos seus serviços?')">🗑️ Excluir</button>
+        </form>
+    </p>
+</section>
+
+<section class="servicos">
+    <h3>Serviços</h3>
+    
+    {% if servicos %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in servicos %}
+                <tr {% if s.concluido %}class="concluido"{% endif %}>
+                    <td>{{ s.data_entrada }}</td>
+                    <td>{{ s.descricao }}</td>
+                    <td>R$ {{ "%.2f"|format(s.valor) }}</td>
+                    <td>
+                        {% if s.concluido %}
+                            <span class="badge-concluido">✓ Concluído</span>
+                        {% else %}
+                            <span class="badge-pendente">● Pendente</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not s.concluido %}
+                            <form method="POST" action="{{ url_for('concluir_servico', id_servico=s.id) }}" style="display:inline;">
+                                <button type="submit">Concluir</button>
+                            </form>
+                        {% endif %}
+                        <form method="POST" action="{{ url_for('excluir_servico', id_servico=s.id) }}" style="display:inline;">
+                            <button type="submit" onclick="return confirm('Excluir este serviço?')">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p><b>Total de serviços:</b> {{ servicos|length }}</p>
+        <p><b>Valor total:</b> R$ {{ "%.2f"|format(servicos|map(attribute='valor')|sum) }}</p>
+    {% else %}
+        <p class="aviso">Nenhum serviço registrado para este veículo.</p>
+    {% endif %}
+
+    <p><a href="{{ url_for('novo_servico', id_veiculo=veiculo.id) }}">➕ Adicionar serviço</a></p>
+</section>
+
+<p><a href="{{ url_for('listar') }}">← Voltar para lista</a></p>
+{% endblock %}

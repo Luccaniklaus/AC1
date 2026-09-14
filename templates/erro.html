@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Erro{% endblock %}
+
+{% block content %}
+<h2>⚠️ Erro</h2>
+
+<div class="erros">
+    <p>{{ mensagem }}</p>
+</div>
+
+<p><a href="{{ url_for('listar') }}">← Voltar para página inicial</a></p>
+{% endblock %}

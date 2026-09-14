@@ -1,5 +1,30 @@
+# Ambiente virtual
 .venv/
+venv/
+env/
+
+# Banco de dados
+*.db
+*.sqlite
+*.sqlite3
+
+# Cache Python
 __pycache__/
-*.pyc
-dados/*.db
+*.py[cod]
+*$py.class
+*.so
+
+# IDE
 .vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos temporários
+*.tmp
+*.log

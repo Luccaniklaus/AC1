@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Buscar{% endblock %}
+
+{% block content %}
+<h2>Buscar Veículos</h2>
+
+<form method="GET" action="{{ url_for('buscar') }}" class="formulario-busca">
+    <input type="text" name="termo" value="{{ termo }}" placeholder="Digite a placa ou proprietário...">
+    <button type="submit">🔍 Buscar</button>
+</form>
+
+{% if termo %}
+    {% if veiculos %}
+        <p>Encontrados <strong>{{ veiculos|length }}</strong> resultado(s):</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Placa</th>
+                    <th>Marca/Modelo</th>
+                    <th>Ano</th>
+                    <th>Proprietário</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for v in veiculos %}
+                <tr>
+                    <td><strong>{{ v.placa }}</strong></td>
+                    <td>{{ v.marca }} {{ v.modelo }}</td>
+                    <td>{{ v.ano }}</td>
+                    <td>{{ v.proprietario }}</td>
+                    <td>
+                        <a href="{{ url_for('detalhe', id_veiculo=v.id) }}">Ver</a> |
+                        <a href="{{ url_for('editar', id_veiculo=v.id) }}">Editar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="aviso">Nenhum veículo encontrado com "<strong>{{ termo }}</strong>".</p>
+    {% endif %}
+{% else %}
+    <p class="aviso">Digite um termo para buscar.</p>
+{% endif %}
+
+<p><a href="{{ url_for('listar') }}">← Voltar para lista</a></p>
+{% endblock %}

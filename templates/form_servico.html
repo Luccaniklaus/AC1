@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<h2>{{ titulo }}</h2>
+<p><b>Veículo:</b> {{ veiculo.placa }} — {{ veiculo.marca }} {{ veiculo.modelo }}</p>
+
+<form method="POST" action="{{ acao }}" class="formulario">
+    {% if erros %}
+    <div class="erros">
+        <h3>⚠️ Erros encontrados:</h3>
+        <ul>
+            {% for campo, mensagem in erros.items() %}
+            <li>{{ mensagem }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="grupo-form">
+        <label for="descricao">Descrição do serviço: *</label>
+        <textarea id="descricao" name="descricao" required>{{ dados.get('descricao', '') }}</textarea>
+        {% if erros.get('descricao') %}<span class="erro">{{ erros['descricao'] }}</span>{% endif %}
+    </div>
+
+    <div class="grupo-form">
+        <label for="data_entrada">Data de entrada: *</label>
+        <input type="date" id="data_entrada" name="data_entrada" 
+               value="{{ dados.get('data_entrada', '') }}" required>
+        {% if erros.get('data_entrada') %}<span class="erro">{{ erros['data_entrada'] }}</span>{% endif %}
+    </div>
+
+    <div class="grupo-form">
+        <label for="valor">Valor (R$): *</label>
+        <input type="number" id="valor" name="valor" step="0.01" min="0.01"
+               value="{{ dados.get('valor', '') }}" required placeholder="0.00">
+        {% if erros.get('valor') %}<span class="erro">{{ erros['valor'] }}</span>{% endif %}
+    </div>
+
+    <div class="botoes">
+        <button type="submit">💾 Salvar</button>
+        <a href="{{ url_for('detalhe', id_veiculo=veiculo.id) }}">Cancelar</a>
+    </div>
+</form>
+
+<p style="color: #666; font-size: 0.9em;">* Campos obrigatórios</p>
+{% endblock %}

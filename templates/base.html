@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Oficina Mecânica{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+    <header>
+        <h1>🔧 Oficina Mecânica</h1>
+        <p>Controle de serviços prestados em veículos</p>
+    </header>
+
+    <nav>
+        <a href="{{ url_for('listar') }}">Lista de Veículos</a> |
+        <a href="{{ url_for('novo') }}">Cadastrar Veículo</a> |
+        <a href="{{ url_for('buscar') }}">Buscar</a>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Oficina Mecânica — Desenvolvido por Lucca Niklaus</p>
+    </footer>
+</body>
+</html>

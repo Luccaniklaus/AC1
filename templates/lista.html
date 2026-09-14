@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Veículos{% endblock %}
+
+{% block content %}
+<h2>Veículos Cadastrados</h2>
+
+{% if veiculos %}
+    <p>Total de veículos: <strong>{{ veiculos|length }}</strong></p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Placa</th>
+                <th>Marca/Modelo</th>
+                <th>Ano</th>
+                <th>Proprietário</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for v in veiculos %}
+            <tr>
+                <td><strong>{{ v.placa }}</strong></td>
+                <td>{{ v.marca }} {{ v.modelo }}</td>
+                <td>{{ v.ano }}</td>
+                <td>{{ v.proprietario }}</td>
+                <td>
+                    <a href="{{ url_for('detalhe', id_veiculo=v.id) }}">Ver</a> |
+                    <a href="{{ url_for('editar', id_veiculo=v.id) }}">Editar</a> |
+                    <form method="POST" action="{{ url_for('excluir', id_veiculo=v.id) }}" style="display:inline;">
+                        <button type="submit" onclick="return confirm('Tem certeza? Todos os serviços também serão excluídos.')">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p class="aviso">Nenhum veículo cadastrado ainda.</p>
+    <p><a href="{{ url_for('novo') }}">Cadastre um agora →</a></p>
+{% endif %}
+{% endblock %}
